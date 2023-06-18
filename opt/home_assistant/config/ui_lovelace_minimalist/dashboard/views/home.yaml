@@ -1,0 +1,85 @@
+title: "Home"
+path: "home"
+cards:
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: "custom:button-card"
+        template: card_person_info
+        variables:
+          ulm_card_person_entity: person.imaginelenses
+          ulm_card_person_battery_entity: sensor.sm_m307f_battery_level
+          ulm_card_person_battery_state_entity: sensor.sm_m307f_battery_state
+      - type: "custom:button-card"
+        template: card_person_info
+        variables:
+          ulm_card_person_entity: person.shiva
+          ulm_card_person_use_entity_picture: false
+          ulm_card_person_battery_entity: sensor.moto_g82_5g_battery_level
+          ulm_card_person_battery_state_entity: sensor.moto_g82_5g_battery_state
+      - type: "custom:button-card"
+        template: card_person_info
+        variables:
+          ulm_card_person_entity: person.harini
+          ulm_card_person_use_entity_picture: false
+          ulm_card_person_icon: "mdi:face-woman"
+          ulm_card_person_battery_entity: sensor.sm_a505f_battery_level
+          ulm_card_person_battery_state_entity: sensor.sm_a505f_battery_state
+
+  - type: weather-forecast
+    entity: weather.forecast_home
+    show_current: true
+    show_forecast: true
+    card_mod:
+      style: >
+        ha-card {
+          --secondary-text-color: #ffffff;
+          background-size: cover;
+          background-repeat: no-repeat;
+          {% if is_state("sun.sun", "above_horizon") %}
+            --primary-text-color: #212121;
+            --ha-card-background: url('/local/weatherBackground/day3.jpeg');
+          {% elif is_state("sun.sun", "below_horizon") %}
+            --primary-text-color: #DDDDDD;
+            --ha-card-background: url('/local/weatherBackground/night.jpg');
+          {% endif %}
+        }
+
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: "custom:button-card"
+        template:
+          - card_esh_room
+        name: Living
+        entity: light.living_room
+        icon: mdi:sofa
+        show_label: false
+        tap_action:
+          action: toggle
+        variables:
+          ulm_custom_card_esh_room_light_entity: light.living_room
+          ulm_custom_card_esh_room_climate_entity: fan.node_fan
+
+  - !include ../floorplanConfig/floorplan.yaml
+
+  - type: picture-entity
+    entity: camera.camera
+    camera_view: live
+    aspect_ratio: '16:12'
+    show_name: false
+    show_state: false
+  
+  - type: custom:mini-graph-card
+    name: Internet
+    icon: mdi:router-wireless
+    entities:
+      - entity: sensor.speedtest_upload
+        name: Upload
+        show_state: true
+        color: '#ff0000'
+      - entity: sensor.speedtest_download
+        name: Download
+        show_state: true
