@@ -1,0 +1,130 @@
+type: picture-elements
+image: /local/livingRoom/night.png
+elements:
+  - type: image
+    entity: sun.sun
+    state_image:
+      above_horizon: /local/livingRoom/day.png
+      below_horizon: /local/livingRoom/transparent.png
+    style:
+      opacity: 80%
+    tap_action:
+      action: none
+    hold_action:
+      action: none
+  
+  - type: image
+    entity: light.node_right
+    state_image:
+      'on': /local/livingRoom/right.png
+      'off': /local/livingRoom/transparent.png
+    tap_action:
+      action: none
+  - type: state-icon
+    entity: light.node_right
+    style:
+      top: 75%
+      left: 50%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  
+  - type: image
+    entity: light.node_left
+    state_image:
+      'on': /local/livingRoom/left.png
+      'off': /local/livingRoom/transparent.png
+    tap_action:
+      action: none
+  - type: state-icon
+    entity: light.node_left
+    style:
+      top: 25%
+      left: 50%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  
+  - type: image
+    entity: light.node_yellow
+    state_image:
+      'on': /local/livingRoom/yellow.png
+      'off': /local/livingRoom/transparent.png
+    tap_action:
+      action: none
+  - type: state-icon
+    entity: light.node_yellow
+    style:
+      top: 55%
+      left: 85%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  
+  - type: image
+    entity: light.node_outside_front
+    state_image:
+      'on': /local/livingRoom/outside_front.png
+      'off': /local/livingRoom/transparent.png
+    tap_action:
+      action: none
+  - type: state-icon
+    entity: light.node_outside_front
+    style:
+      top: 40%
+      left: 8%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  
+  - type: image
+    entity: light.node_outside_left
+    state_image:
+      'on': /local/livingRoom/outside_left.png
+      'off': /local/livingRoom/transparent.png
+    tap_action:
+      action: none
+  - type: state-icon
+    entity: light.node_outside_left
+    style:
+      top: 8%
+      left: 50%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+  
+  - type: state-icon
+    entity: fan.node_fan
+    style:
+      top: 50%
+      left: 50%
+    tap_action:
+      action: toggle
+    hold_action:
+      action: more-info
+
+card_mod:
+  style: |
+    ha-card {
+      --state-inactive-color: #dddddd !important;
+      --state-light-off-color: #dddddd !important;
+      --state-fan-off-color: #dddddd !important;
+    }
+
+    hui-image-element {
+      transform: translate(0%, -100%) !important;
+      mix-blend-mode: lighten;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    hui-state-icon-element {
+      background: rgb(0 0 0 / 60%);
+      border-radius: 50%;
+      z-index: 1;
+    }
