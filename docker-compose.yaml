@@ -1,0 +1,78 @@
+version: "3.5"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    ports:
+      - 9000:9000
+    volumes:
+      - /opt/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /opt/home_assistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/dbus:/run/dbus:ro
+    devices:
+      - /dev/bus/usb/001/003:/dev/bus/usb/001/003
+      - /dev/snd:/dev/snd
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - /opt/esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    privileged: true
+    network_mode: host
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'India/Kolkata'
+      WEBPASSWORD: '9739525299'
+    volumes:
+      - './opt/pihole:/etc/pihole'
+      - './opt/dnsmasq.d:/etc/dnsmasq.d'
+    restart: unless-stopped
+    privileged: true
+
+  wyoming-piper-en:
+    container_name: piper-en
+    image: rhasspy/wyoming-piper
+    ports:
+      - 10200:10200
+    volumes:
+      - '/opt/piper:/data'
+    command: 
+      --voice en-us-amy-low
+    restart: always
+
+  wyoming-whisper-en:
+    container_name: whisper-en
+    image: rhasspy/wyoming-whisper
+    ports:
+      - 10300:10300
+    volumes:
+      - '/opt/whisper:/data'
+    command: 
+      --model tiny-int8 --language en
+    restart: always
+
+volumes:
+  data:
